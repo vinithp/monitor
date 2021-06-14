@@ -84,13 +84,13 @@ echo "P_httprobe completed" | tee -a $path/status
 #--------------------active--------------------#
 A_SUBDOMAIN(){
 #------------altdns-sub-bruteforce-------------#
-altdns -i $path/target -w ~/tools/my/word/my/subdomain/my1000.txt -o $path/active/altlist
+altdns -i $path/target -w ~/tools/my/my_word/subdomain/my1000.txt -o $path/active/altlist
 cat $path/active/altlist | grep -xavf $path/active/altbrutelist | tee -a $path/active/altbrutelist
 altdns -i $path/target -w $path/wordlist/tarwordlist -o $path/active/altlist
 cat $path/active/altlist | grep -xavf $path/active/altbrutelist | tee -a $path/active/altbrutelist
 altdns -i $path/allsubdomain -w $path/$1/subwordlist -o $path/active/altlist
 cat $path/active/altlist | grep -xavf $path/active/altbrutelist | tee -a $path/active/altbrutelist
-altdns -i $path/allsubdomain -w ~/tools/my/word/my/subdomain/my1000.txt -o $path/active/altlist
+altdns -i $path/allsubdomain -w ~/tools/my/my_word/subdomain/my1000.txt -o $path/active/altlist
 cat $path/active/altlist | grep -xavf $path/active/altbrutelist | tee -a $path/active/altbrutelist
 
 echo "A_altdns completed" | tee -a $path/active/status
@@ -141,13 +141,15 @@ sort -u $path/passive/commoncrawl1 -o $path/passive/commoncrawl1
 echo "commoncrawl completed" | tee -a $path/status
 }
 
-A_URLS(){
+SPIDER(){
 #----------spider-------------------#
 #cat $path/passive/allsubdomain | sed 's/^/https:\/\//' | tee -a $path/passive/spiderinput
 gospider -S $path/$1/upsubdomains -c 10 -d 3 | ~/tools/my/./pygrep.py urldc | ~/tools/my/./pygrep.py htmldc | sed 's/\[.*\] \- //' | tee -a $path/$1/spideralloutput | grep -a $domain | tee -a $path/$1/spideroutput
 sort -u $path/$1/spideroutput -o $path/$1/spideroutput
 echo "$1_spider completed" | tee -a $path/status
+}
 
+A_URLS(){
 #-----------sitemap------------------#
 while read i; do echo $i | ~/tools/my/./link.sh domain-path | grep -a $domain ; done < <(cat $path/$1/upsubdomains | sed 's/$/\/sitemap.xml/' | ~/tools/my/./jstool.js -curl) | ~/tools/my/./pygrep.py urldc | ~/tools/my/./pygrep.py htmldc | sort -u | tee -a $path/$1/sitemapurl
 echo "$1_sitemap completed" | tee -a $path/status
@@ -306,6 +308,7 @@ while getopts 'hr:d:' flag; do
 	    P_SUBDOMAIN
 	    P_URLS
     	    A_URLS passive
+            SPIDER passive
     	    WORDLIST passive "cat $path/passive/allsubdomain $path/passive/gaurl $path/passive/sitemapurl $path/passive/roboturl $path/passive/commoncrawl1 $path/passive/spideroutput";;
         active)
             mkdir ~/bug/$domain
@@ -317,6 +320,7 @@ while getopts 'hr:d:' flag; do
             ASN
             A_SUBDOMAIN
             A_URLS active
+            SPIDER active
             WORDLIST active "cat $path/active/allsubdomain $path/active/sitemapurl $path/active/roboturl $path/active/spideroutput";;
         all)
             mkdir ~/bug/$domain
@@ -329,10 +333,12 @@ while getopts 'hr:d:' flag; do
             ASN
             P_SUBDOMAIN
             P_URLS
+            SPIDER passive
             A_URLS passive
             WORDLIST passive "cat $path/passive/allsubdomain $path/passive/gaurl $path/passive/sitemapurl $path/passive/roboturl $path/passive/commoncrawl1 $path/passive/spideroutput"
             A_SUBDOMAIN
             A_URLS active
+            SPIDER active
             WORDLIST active "cat $path/active/allsubdomain $path/active/sitemapurl $path/active/roboturl $path/active/spideroutput";;
         single)
             mkdir ~/bug/$domain

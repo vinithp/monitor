@@ -6,8 +6,6 @@ const fs = require('fs');
 const request = require('request');
 const decodehtml = require('decode-html');
 
-let ki=new Promise 
-
 f = (process.argv[2]);
 urlfilename = (process.argv[3]);
 
