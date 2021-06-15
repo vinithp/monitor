@@ -8,6 +8,8 @@ setup(){
     mkdir ~/.config;mkdir ~/.config/amass;mkdir ~/.config/amass/jk;mkdir ~/.local;mkdir ~/.local/bin
 
     set -e
+    echo -e 'tmuxr(){\ntmux attach-session -t $1\n}' >> ~/.bashrc
+    echo 'tmuxs(){\ntmux new -s $1\n}' >> ~/.bashrc
     echo 'export PATH=$PATH:/usr/local/go/bin' >> ~/.bashrc
     echo 'export PATH=$PATH:~/go/bin' >> ~/.bashrc
     echo 'export PATH=$PATH:~/.local/bin' >> ~/.bashrc 
