@@ -1,0 +1,8 @@
+Recon site, if server -> windows OS, find open ports. Often see an SMB open port.
+-> locate *.nse | grep smb(Try All)
+-> nmap -p 139,445 --script=smb-vuln* $targetip
+Server might be vuln to any public SMB NSE/Nmap script
+--> RCE
+
+-------------------
+
