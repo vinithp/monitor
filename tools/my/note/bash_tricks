@@ -1,4 +1,0 @@
-sed ':a;N;$!ba;s/\n//g' == to replace newline in terminal
-find ~/tools/my/ -mindepth 1 -maxdepth 1 ! -name words | xargs -I {} cp -r {} . == to copy all files in file execpt mentiones files("words")
-grep -f ~/tools/my/words/jswords/jswords -EinaoR --include='*.js'
-sed '/^[[:space:]]*$/d' test == to remove empty lines

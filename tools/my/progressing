@@ -1,1 +1,0 @@
-dig +nocmd +nostats -f allsubdomain | grep CNAME --line-buffered | awk -F' ' '{print $1" "$5; system("")}' | tee sdto1 | awk -F' ' '{print "https://"$1; system("")}' | hakcheckurl | grep -v 999 --line-buffered | sed -u -e 's/https:\/\///' | xargs -n 2 sh -c 'sed -u -e "s/$2/$2 $1/" sdto1 | grep $2 --line-buffered | xargs printf "%-50s %-5s %-s\n"' argv0 | tee final

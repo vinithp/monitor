@@ -1,2 +1,0 @@
-*openredirection if site checks for specific url(g.com/this/must/be/there),but we found openredirect vulnerablity on(g.com/here?url=attack.com)then we can do(g.com/this/must/be/there/../../../../href?url=attack.com)(we need to check if open redirect allowed in any other place in same host(if it is checking of host)so always search in other places)
-*if we cant bypass something but if our input is displayed in error then execute that xss
