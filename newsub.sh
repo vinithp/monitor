@@ -12,7 +12,15 @@ install(){
     touch ~/bug/newsub/new_$domain ~/bug/newsub/all_$domain
     mkdir -p ~/.config/amass/jk/
     cp ~/newsub/config/config.ini ~/.config/amass/jk/config.ini
+    sudo apt install tmux
+    go version || (wget https://dl.google.com/go/go1.16.5.linux-amd64.tar.gz && tar -C /usr/local -xzf go1.16.5.linux-amd64.tar.gz)
     go get -v github.com/OWASP/Amass/v3/...
+    echo -e 'tmuxr(){\ntmux attach-session -t $1\n}' >> ~/.bashrc
+    echo 'tmuxs(){\ntmux new -s $1\n}' >> ~/.bashrc
+    echo 'export PATH=$PATH:/usr/local/go/bin' >> ~/.bashrc
+    echo 'export PATH=$PATH:~/go/bin' >> ~/.bashrc
+    echo 'export PATH=$PATH:~/.local/bin' >> ~/.bashrc 
+    echo 'export PATH=$PATH:/usr/local/bin/' >> ~/.bashrc
 }
 
 newsub(){
