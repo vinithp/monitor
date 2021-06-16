@@ -1,0 +1,19 @@
+to do in recon.sh
+sudomain enum 		-done
+get target wordlist	-done
+fuff endpoints,directories etc...
+github recon
+Port scan
+
+(GIT repositories, Content Security Policy headers, source code, issue trackers)
+
+
+to do in scan.sh
+subdomain takeover	-done
+
+
+// non printable chars
+%01-08,%0b,%0c,%0e,%0f,%10-%1f,%7f
+
+checkout this node module
+URLSearchParams

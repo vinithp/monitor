@@ -1,0 +1,25 @@
+syntax on
+set expandtab
+set shiftwidth=4
+set nu
+set ignorecase
+set smartcase
+set incsearch
+set hlsearch
+set title
+set mouse=a
+set wildmode=longest,list,full
+set backspace=2
+
+""""""""""""""Normal-shortcut"""""""""""""""""""
+nnoremap <C-l> :%!sort -u<cr>
+nnoremap C :%!<right>
+nnoremap <C-D> :%d<cr>
+nnoremap S :%s//gI<Left><Left><Left>
+nnoremap s :update<cr>
+nnoremap <C-x> :q!<cr>
+nnoremap z :update \| q<cr>
+nnoremap nt :tabnew<cr>
+nnoremap ct :tabclose<cr>
+nnoremap <C-Delete> :tabnew<cr>
+vnoremap <C-c> "+y
