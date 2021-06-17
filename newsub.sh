@@ -12,14 +12,18 @@ install(){
     mkdir -p ~/.config/amass/jk/
     cp ~/newsub/config/config.ini ~/.config/amass/jk/config.ini
     sudo apt install tmux
-    go version || (wget https://dl.google.com/go/go1.16.5.linux-amd64.tar.gz && sudo tar -C /usr/local -xzf go1.16.5.linux-amd64.tar.gz)
-    amass -version || go get -v github.com/OWASP/Amass/v3/...
     echo -e 'tmuxr(){\ntmux attach-session -t $1\n}' >> ~/.bashrc
     echo -e 'tmuxs(){\ntmux new -s $1\n}' >> ~/.bashrc
     echo 'export PATH=$PATH:/usr/local/go/bin' >> ~/.bashrc
     echo 'export PATH=$PATH:~/go/bin' >> ~/.bashrc
     echo 'export PATH=$PATH:~/.local/bin' >> ~/.bashrc
     echo 'export PATH=$PATH:/usr/local/bin/' >> ~/.bashrc
+    source ~/.bashrc
+    go version || (wget https://dl.google.com/go/go1.16.5.linux-amd64.tar.gz && sudo tar -C /usr/local -xzf go1.16.5.linux-amd64.tar.gz)
+    amass -version || go get -v github.com/OWASP/Amass/v3/...
+
+
+
 }
 brun(){
     touch ~/bug/newsub/new_$domain ~/bug/newsub/all_$domain
@@ -28,13 +32,16 @@ brun(){
 }
 
 newsub(){
+    count=1
     while true 
     do
         amass enum -config ~/.config/amass/jk/config.ini -passive -d $domain -nocolor | tee ~/bug/newsub/new_$domain
-        comm -1 -3 <(sort ~/bug/newsub/new_$domain) <(sort ~/bug/newsub/all_$domain) | (grep . || echo no) | tee -a ~/bug/newsub/deleted | sed 's/$/ deleted/' | ~/tools/my/newsub/./tnotify.sh
+        comm -1 -3 <(sort ~/bug/newsub/new_$domain) <(sort ~/bug/newsub/all_$domain) | (grep . || exit 0) | tee -a ~/bug/newsub/deleted | sed 's/$/ deleted/' | ~/tools/my/newsub/./tnotify.sh
         comm -2 -3 <(sort ~/bug/newsub/new_$domain) <(sort ~/bug/newsub/all_$domain) | (grep . || exit 0) | sed 's/$/ added/' | ~/tools/my/newsub/./tnotify.sh
         cp ~/bug/newsub/new_$domain ~/bug/newsub/all_$domain
+        echo -e "\n============sleeping $count time============\n"
         sleep 1h
+        count=$1+1
     done
 
 }
